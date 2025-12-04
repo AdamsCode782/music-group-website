@@ -42,7 +42,19 @@
   .nav.open {
     @apply scale-y-100 origin-top;
   }
+   /* Reusable glowing underline for headings */
+      .underline-glow {
+        @apply relative after:content-[''] after:absolute after:h-3 after:w-full after:bottom-0.5 after:left-0 after:-z-[1] after:blur-sm;
+      }
 
+      /* Color variants */
+      .underline-glow-blue {
+        @apply after:bg-blue-500;
+      }
+
+      .underline-glow-gold {
+        @apply after:bg-golden;
+      }
   .hamburger.close {
     div:first-child {
       @apply rotate-45 translate-y-2;
