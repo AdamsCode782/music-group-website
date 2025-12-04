@@ -5,11 +5,15 @@
   "main": "index.js",
   "scripts": {
     "compile": "tailwindcss -i ./src/input.css -o ./output/output.css",
-    "watch": "tailwindcss -i ./src/input.css -o ./output/output.css --watch"
+    "watch": "tailwindcss -i ./src/input.css -o ./output/output.css --watch",
+    "start": "live-server"
   },
   "author": "Helalee",
   "license": "MIT",
   "devDependencies": {
     "tailwindcss": "^3.4.10"
+  },
+  "dependencies": {
+    "live-server": "^1.2.2"
   }
 }

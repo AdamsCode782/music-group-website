@@ -2,13 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* ----------------------------------------
+   Base fixes + global enhancements
+-----------------------------------------*/
 @layer base {
+
+  /* Make all images cover properly */
   img {
     @apply object-cover;
   }
+
+  /* Soft neon glow behind headings */
+  h1, h2, h3, h4, h5, h6 {
+    @apply drop-shadow-[0_0_6px_rgba(255,0,150,0.35)];
+  }
+
+  /* Improve paragraph readability */
+  p {
+    @apply leading-relaxed;
+  }
 }
 
+
+/* ----------------------------------------
+   Components — Overlays, gallery, animations
+-----------------------------------------*/
 @layer components {
+
+  /* Utility shortcuts you already have */
   .before {
     @apply before:absolute before:content-[''];
   }
@@ -25,13 +47,138 @@
     div:first-child {
       @apply rotate-45 translate-y-2;
     }
-
     div:nth-child(2) {
       @apply opacity-0;
     }
-
     div:last-child {
       @apply -rotate-45 -translate-y-2;
     }
   }
+
+  /* ----------------------------------------
+     🌌 Image blending so blue images MATCH magenta theme
+     (no HTML changes required)
+  -----------------------------------------*/
+  .neon-image {
+    @apply relative overflow-hidden;
+  }
+
+  .neon-image::after {
+    content: '';
+    @apply absolute inset-0 bg-blue/20 mix-blend-screen pointer-events-none;
+  }
+
+  /* You can also apply more intense blend on hero/bg images if needed */
+  .neon-intense::after {
+    @apply bg-blue/40;
+  }
+
+
+  /* ----------------------------------------
+     Gallery Fix — Prevents massive scaling,
+     creates smooth neon mosaic layout
+  -----------------------------------------*/
+  .gallery-grid figure {
+    @apply relative overflow-hidden rounded;
+  }
+
+  .gallery-grid figure img {
+    @apply w-full h-full transition-transform duration-500;
+  }
+
+  /* Subtle zoom on hover */
+  .gallery-grid figure:hover img {
+    transform: scale(1.08);
+  }
+
+  /* Force reasonable heights on desktop */
+  @screen lg {
+    .gallery-grid figure {
+      height: 260px;
+    }
+    .gallery-grid figure:nth-child(1),
+    .gallery-grid figure:nth-child(3),
+    .gallery-grid figure:nth-child(7) {
+      height: 540px;
+    }
+  }
+
+
+  /* ----------------------------------------
+     Nav Hover Animation (neon dots)
+  -----------------------------------------*/
+  .nav-link {
+    @apply transition-colors hover:text-golden relative;
+  }
+  .nav-link::after {
+    content: '';
+    @apply absolute -bottom-1 left-1/2 w-2 h-2 bg-golden rounded-full opacity-0 transition-all;
+    transform: translateX(-50%);
+  }
+  .nav-link:hover::after {
+    @apply opacity-100;
+  }
+
+
+  /* ----------------------------------------
+     Buttons: neon hover effect
+  -----------------------------------------*/
+  .btn-neon {
+    @apply relative transition-transform duration-300;
+  }
+
+  .btn-neon:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-neon::after {
+    content: '';
+    @apply absolute inset-0 border border-golden opacity-0 transition-opacity duration-300;
+  }
+
+  .btn-neon:hover::after {
+    @apply opacity-100;
+  }
+
+
+  /* ----------------------------------------
+     Section backgrounds: smooth neon gradient
+     (Works with your magenta theme)
+  -----------------------------------------*/
+  .neon-section {
+    background: linear-gradient(
+      to top,
+      rgba(255, 0, 150, 0.85),
+      rgba(255, 0, 150, 0.35)
+    );
+  }
+
 }
+
+
+/* ----------------------------------------
+   Utilities — Feel free to use in HTML
+-----------------------------------------*/
+@layer utilities {
+
+  /* Soft fade-in for all elements */
+  .fade-in {
+    animation: fadeIn 1s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Slow pulse (neon effect) */
+  .pulse-neon {
+    animation: pulseNeon 3s ease-in-out infinite;
+  }
+
+  @keyframes pulseNeon {
+    0%, 100% { filter: drop-shadow(0 0 6px rgba(255,0,150,0.4)); }
+    50% { filter: drop-shadow(0 0 12px rgba(255,0,150,0.8)); }
+  }
+}
+
